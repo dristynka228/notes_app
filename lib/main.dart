@@ -27,23 +27,18 @@ class NotesScreen extends StatefulWidget {
 }
 
 class _NotesScreenState extends State<NotesScreen> {
-  // Контроллер для текстового поля
   final TextEditingController _textController = TextEditingController();
   
-  // Список для хранения заметок
   final List<String> _notes = [];
-  
-  // Переменная для отслеживания индекса редактируемой заметки
+
   int? _editingIndex;
 
-  // Очищаем контроллер при закрытии
   @override
   void dispose() {
     _textController.dispose();
     super.dispose();
   }
 
-  // Метод для добавления заметки
   void _addNote() {
     if (_textController.text.isNotEmpty) {
       setState(() {
@@ -53,14 +48,12 @@ class _NotesScreenState extends State<NotesScreen> {
     }
   }
 
-  // Метод для удаления заметки
   void _deleteNote(int index) {
     setState(() {
       _notes.removeAt(index);
     });
   }
 
-  // Метод для начала редактирования
   void _editNote(int index) {
     setState(() {
       _editingIndex = index;
@@ -68,7 +61,6 @@ class _NotesScreenState extends State<NotesScreen> {
     });
   }
 
-  // Метод для обновления заметки
   void _updateNote() {
     if (_textController.text.isNotEmpty && _editingIndex != null) {
       setState(() {
@@ -79,7 +71,6 @@ class _NotesScreenState extends State<NotesScreen> {
     }
   }
 
-  // Метод для отмены редактирования
   void _cancelEdit() {
     setState(() {
       _textController.clear();
@@ -97,7 +88,6 @@ class _NotesScreenState extends State<NotesScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Поле ввода
             TextField(
               controller: _textController,
               decoration: InputDecoration(
@@ -112,24 +102,21 @@ class _NotesScreenState extends State<NotesScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            
-            // Кнопка сохранения/обновления
+
             ElevatedButton(
               onPressed: _editingIndex == null ? _addNote : _updateNote,
               child: Text(_editingIndex == null ? 'Сохранить' : 'Обновить'),
             ),
             
             const SizedBox(height: 20),
-            
-            // Заголовок списка
+
             const Text(
               'Список заметок:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             
             const SizedBox(height: 10),
-            
-            // Список заметок
+
             Expanded(
               child: _notes.isEmpty
                   ? const Center(
@@ -145,12 +132,10 @@ class _NotesScreenState extends State<NotesScreen> {
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                // Кнопка редактирования
                                 IconButton(
                                   icon: const Icon(Icons.edit),
                                   onPressed: () => _editNote(index),
                                 ),
-                                // Кнопка удаления
                                 IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () => _deleteNote(index),
